@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blood Bank Management System</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    color: #333;
+}
+
+/* LOGIN */
+#loginPage {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #b71c1c, #e53935);
+}
+
+.login-box {
+    width: 380px;
+    background: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    text-align: center;
+}
+
+.login-box h1 {
+    color: #c62828;
+    margin-bottom: 10px;
+}
+
+.login-box p {
+    margin-bottom: 25px;
+    color: #666;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 13px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 15px;
+    border: none;
+    background: #c62828;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-box button:hover {
+    background: #8e0000;
+}
+
+#error {
+    color: red;
+    margin-top: 10px;
+}
+
+/* MAIN APPLICATION */
+#app {
+    display: none;
+}
+
+/* HEADER */
+header {
+    background: #b71c1c;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 24px;
+}
+
+.logout {
+    background: white;
+    color: #b71c1c;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* NAVIGATION */
+nav {
+    background: #8e0000;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+nav button {
+    background: transparent;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    cursor: pointer;
+}
+
+nav button:hover {
+    background: #b71c1c;
+}
+
+/* CONTENT */
+.container {
+    padding: 25px;
+    max-width: 1300px;
+    margin: auto;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+h2 {
+    color: #b71c1c;
+    margin-bottom: 20px;
+}
+
+/* CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.card h3 {
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 30px;
+    color: #c62828;
+    font-weight: bold;
+}
+
+/* FORM */
+.form-box {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.primary-btn {
+    background: #c62828;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.primary-btn:hover {
+    background: #8e0000;
+}
+
+/* TABLE */
+.table-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #c62828;
+    color: white;
+    padding: 12px;
+}
+
+td {
+    padding: 11px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.delete-btn {
+    background: #e53935;
+    color: white;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+}
+
+/* MOBILE */
+@media(max-width:600px) {
+    header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    nav button {
+        flex: 1;
+        min-width: 100px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage">
+
+    <div class="login-box">
+
+        <h1>🩸 Blood Bank</h1>
+        <p>Management System Login</p>
+
+        <input type="text" id="username" placeholder="Username">
+
+        <input type="password" id="password" placeholder="Password">
+
+        <button onclick="login()">Login</button>
+
+        <p id="error"></p>
+
+        <small>
+            Username: admin<br>
+            Password: 1234
+        </small>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN APPLICATION -->
+<div id="app">
+
+<header>
+
+    <h1>🩸 Blood Bank Management System</h1>
+
+    <button class="logout" onclick="logout()">
+        Logout
+    </button>
+
+</header>
+
+
+<!-- NAVIGATION -->
+<nav>
+
+    <button onclick="showSection('dashboard')">
+        Dashboard
+    </button>
+
+    <button onclick="showSection('donors')">
+        Donors
+    </button>
+
+    <button onclick="showSection('addDonor')">
+        Add Donor
+    </button>
+
+    <button onclick="showSection('requests')">
+        Blood Requests
+    </button>
+
+    <button onclick="showSection('inventory')">
+        Inventory
+    </button>
+
+</nav>
+
+
+<div class="container">
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="section active">
+
+    <h2>Dashboard</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Donors</h3>
+            <p id="totalDonors">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Blood Requests</h3>
+            <p id="totalRequests">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Blood Units</h3>
+            <p id="totalBlood">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Available Groups</h3>
+            <p>8</p>
+        </div>
+
+    </div>
+
+    <div class="form-box">
+
+        <h3>Welcome to Blood Bank Management System</h3>
+
+        <br>
+
+        <p>
+            This system helps manage blood donors, blood requests,
+            and blood inventory.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- DONORS -->
+<section id="donors" class="section">
+
+    <h2>Donor Management</h2>
+
+    <input
+        type="text"
+        class="search"
+        id="donorSearch"
+        placeholder="Search donor..."
+        onkeyup="displayDonors()"
+    >
+
+    <div class="table-box">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Blood Group</th>
+                    <th>Phone</th>
+                    <th>City</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="donorTable"></tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ADD DONOR -->
+<section id="addDonor" class="section">
+
+    <h2>Add Blood Donor</h2>
+
+    <div class="form-box">
+
+        <form onsubmit="addDonor(event)">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Donor Name</label>
+                    <input type="text" id="donorName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="donorAge" min="18" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Gender</label>
+
+                    <select id="donorGender" required>
+                        <option value="">Select Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Blood Group</label>
+
+                    <select id="donorBlood" required>
+
+                        <option value="">Select Blood Group</option>
+                        <option>A+</option>
+                        <option>A-</option>
+                        <option>B+</option>
+                        <option>B-</option>
+                        <option>AB+</option>
+                        <option>AB-</option>
+                        <option>O+</option>
+                        <option>O-</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="donorPhone" required>
+                </div>
+
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" id="donorCity" required>
+                </div>
+
+            </div>
+
+            <button class="primary-btn" type="submit">
+                Add Donor
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- REQUESTS -->
+<section id="requests" class="section">
+
+    <h2>Blood Requests</h2>
+
+    <div class="form-box">
+
+        <form onsubmit="addRequest(event)">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Patient Name</label>
+                    <input type="text" id="patientName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Blood Group</label>
+
+                    <select id="requestBlood" required>
+
+                        <option value="">Select Blood Group</option>
+                        <option>A+</option>
+                        <option>A-</option>
+                        <option>B+</option>
+                        <option>B-</option>
+                        <option>AB+</option>
+                        <option>AB-</option>
+                        <option>O+</option>
+                        <option>O-</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Units Required</label>
+                    <input type="number" id="units" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Hospital</label>
+                    <input type="text" id="hospital" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="tel" id="patientPhone" required>
+                </div>
+
+            </div>
+
+            <button class="primary-btn" type="submit">
+                Submit Request
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="table-box">
+
+        <h3>Request List</h3>
+
+        <br>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Patient</th>
+                    <th>Blood Group</th>
+                    <th>Units</th>
+                    <th>Hospital</th>
+                    <th>Contact</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="requestTable"></tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- INVENTORY -->
+<section id="inventory" class="section">
+
+    <h2>Blood Inventory</h2>
+
+    <div class="table-box">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Blood Group</th>
+                    <th>Available Units</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="inventoryTable"></tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+</div>
+
+
+<footer>
+
+    Blood Bank Management System © 2026
+
+</footer>
+
+</div>
+
+
+<script>
+
+/* =========================
+   LOGIN / LOGOUT
+========================= */
+
+function login() {
+
+    const username =
+        document.getElementById("username").value;
+
+    const password =
+        document.getElementById("password").value;
+
+    if (username === "admin" && password === "1234") {
+
+        localStorage.setItem("loggedIn", "true");
+
+        document.getElementById("loginPage").style.display = "none";
+
+        document.getElementById("app").style.display = "block";
+
+        updateDashboard();
+
+    } else {
+
+        document.getElementById("error").innerText =
+            "Invalid username or password!";
+
+    }
+}
+
+
+function logout() {
+
+    localStorage.removeItem("loggedIn");
+
+    document.getElementById("app").style.display = "none";
+
+    document.getElementById("loginPage").style.display = "flex";
+
+    document.getElementById("username").value = "";
+
+    document.getElementById("password").value = "";
+
+}
+
+
+/* =========================
+   PAGE LOAD
+========================= */
+
+window.onload = function() {
+
+    if (localStorage.getItem("loggedIn") === "true") {
+
+        document.getElementById("loginPage").style.display = "none";
+
+        document.getElementById("app").style.display = "block";
+
+    }
+
+    displayDonors();
+    displayRequests();
+    displayInventory();
+    updateDashboard();
+
+};
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function showSection(sectionId) {
+
+    const sections =
+        document.querySelectorAll(".section");
+
+    sections.forEach(function(section) {
+
+        section.classList.remove("active");
+
+    });
+
+    document.getElementById(sectionId)
+        .classList.add("active");
+
+    updateDashboard();
+
+}
+
+
+/* =========================
+   DONOR DATA
+========================= */
+
+let donors =
+    JSON.parse(localStorage.getItem("donors")) || [];
+
+
+function addDonor(event) {
+
+    event.preventDefault();
+
+    const donor = {
+
+        id: Date.now(),
+
+        name:
+            document.getElementById("donorName").value,
+
+        age:
+            document.getElementById("donorAge").value,
+
+        gender:
+            document.getElementById("donorGender").value,
+
+        blood:
+            document.getElementById("donorBlood").value,
+
+        phone:
+            document.getElementById("donorPhone").value,
+
+        city:
+            document.getElementById("donorCity").value
+
+    };
+
+    donors.push(donor);
+
+    localStorage.setItem(
+        "donors",
+        JSON.stringify(donors)
+    );
+
+    alert("Donor added successfully!");
+
+    event.target.reset();
+
+    displayDonors();
+
+    displayInventory();
+
+    updateDashboard();
+
+}
+
+
+function displayDonors() {
+
+    const table =
+        document.getElementById("donorTable");
+
+    const search =
+        document.getElementById("donorSearch")?.value
+        .toLowerCase() || "";
+
+    table.innerHTML = "";
+
+    donors
+        .filter(function(donor) {
+
+            return donor.name.toLowerCase()
+                .includes(search) ||
+                donor.blood.toLowerCase()
+                .includes(search) ||
+                donor.city.toLowerCase()
+                .includes(search);
+
+        })
+        .forEach(function(donor, index) {
+
+            table.innerHTML += `
+
+            <tr>
+
+                <td>${index + 1}</td>
+
+                <td>${donor.name}</td>
+
+                <td>${donor.age}</td>
+
+                <td>${donor.gender}</td>
+
+                <td>${donor.blood}</td>
+
+                <td>${donor.phone}</td>
+
+                <td>${donor.city}</td>
+
+                <td>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteDonor(${donor.id})">
+
+                        Delete
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `;
+
+        });
+
+}
+
+
+function deleteDonor(id) {
+
+    if (confirm("Delete this donor?")) {
+
+        donors =
+            donors.filter(function(donor) {
+
+                return donor.id !== id;
+
+            });
+
+        localStorage.setItem(
+            "donors",
+            JSON.stringify(donors)
+        );
+
+        displayDonors();
+
+        displayInventory();
+
+        updateDashboard();
+
+    }
+
+}
+
+
+/* =========================
+   BLOOD REQUESTS
+========================= */
+
+let requests =
+    JSON.parse(localStorage.getItem("requests")) || [];
+
+
+function addRequest(event) {
+
+    event.preventDefault();
+
+    const request = {
+
+        id: Date.now(),
+
+        patient:
+            document.getElementById("patientName").value,
+
+        blood:
+            document.getElementById("requestBlood").value,
+
+        units:
+            document.getElementById("units").value,
+
+        hospital:
+            document.getElementById("hospital").value,
+
+        phone:
+            document.getElementById("patientPhone").value
+
+    };
+
+    requests.push(request);
+
+    localStorage.setItem(
+        "requests",
+        JSON.stringify(requests)
+    );
+
+    alert("Blood request submitted!");
+
+    event.target.reset();
+
+    displayRequests();
+
+    updateDashboard();
+
+}
+
+
+function displayRequests() {
+
+    const table =
+        document.getElementById("requestTable");
+
+    table.innerHTML = "";
+
+    requests.forEach(function(request, index) {
+
+        table.innerHTML += `
+
+        <tr>
+
+            <td>${index + 1}</td>
+
+            <td>${request.patient}</td>
+
+            <td>${request.blood}</td>
+
+            <td>${request.units}</td>
+
+            <td>${request.hospital}</td>
+
+            <td>${request.phone}</td>
+
+            <td>
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteRequest(${request.id})">
+
+                    Delete
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+function deleteRequest(id) {
+
+    if (confirm("Delete this request?")) {
+
+        requests =
+            requests.filter(function(request) {
+
+                return request.id !== id;
+
+            });
+
+        localStorage.setItem(
+            "requests",
+            JSON.stringify(requests)
+        );
+
+        displayRequests();
+
+        updateDashboard();
+
+    }
+
+}
+
+
+/* =========================
+   INVENTORY
+========================= */
+
+const bloodGroups = [
+    "A+",
+    "A-",
+    "B+",
+    "B-",
+    "AB+",
+    "AB-",
+    "O+",
+    "O-"
+];
+
+
+function displayInventory() {
+
+    const table =
+        document.getElementById("inventoryTable");
+
+    table.innerHTML = "";
+
+    bloodGroups.forEach(function(group) {
+
+        const count =
+            donors.filter(function(donor) {
+
+                return donor.blood === group;
+
+            }).length;
+
+        let status;
+
+        if (count === 0) {
+
+            status = "Out of Stock";
+
+        } else if (count < 3) {
+
+            status = "Low Stock";
+
+        } else {
+
+            status = "Available";
+
+        }
+
+        table.innerHTML += `
+
+        <tr>
+
+            <td><strong>${group}</strong></td>
+
+            <td>${count}</td>
+
+            <td>${status}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+function updateDashboard() {
+
+    document.getElementById("totalDonors")
+        .innerText = donors.length;
+
+    document.getElementById("totalRequests")
+        .innerText = requests.length;
+
+    document.getElementById("totalBlood")
+        .innerText = donors.length;
+
+}
+
+
+/* =========================
+   ENTER KEY LOGIN
+========================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter" &&
+            document.activeElement.id === "password"
+        ) {
+
+            login();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
